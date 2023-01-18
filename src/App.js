@@ -1,46 +1,45 @@
 import './App.css';
 // import { Component } from 'react'; // Class Component
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import CardList from './components/card-list/card-list.component';
 import SearchBox from './components/search-box/search-box.component';
 
 
 
 const App = () => {
-  const [searchString,setSearchField] = useState('');
-  const [monster,setMonster] = useState([]);
-  const [filterMonster,setFilterMonster] = useState(monster);
-  
-  console.log("Search String == ",{searchString})
+  const [searchString, setSearchField] = useState('');
+  const [monster, setMonster] = useState([]);
+  const [filterMonster, setFilterMonster] = useState(monster);
+
+  console.log("Search String == ", { searchString })
 
   console.log("render")
 
-  useEffect(()=> {
+  useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users')
-        .then(response => response.json())
-        .then((users) => setMonster(users))
-  },
-  [])
+      .then(response => response.json())
+      .then((users) => setMonster(users))
+  },[])
 
-  useEffect(()=> {
-      const newfiltermonster = monster.filter((monster) => {
+  useEffect(() => {
+    const newfiltermonster = monster.filter((monster) => {
       return monster.name.toLowerCase().includes(searchString);
     });
 
     setFilterMonster(newfiltermonster);
-  },[monster,searchString])
-  
+  }, [monster, searchString])
+
   const onSearchChange = (event) => {
     const searchFieldString = event.target.value.toLowerCase();
     setSearchField(searchFieldString);
   }
 
-  return(
+  return (
     <div className='App'>
-       <h1>Monster Rolodex</h1>
-     <SearchBox onChangeHandler={onSearchChange} placeHolder={'Search monsters'} className={'search-boxk'}/>
-     <CardList monster={filterMonster} />
-     </div>
+      <h1>Monster Rolodex</h1>
+      <SearchBox onChangeHandler={onSearchChange} placeHolder={'Search monsters'} className={'search-boxk'} />
+      <CardList monster={filterMonster} />
+    </div>
   )
 }
 // class App extends Component {
